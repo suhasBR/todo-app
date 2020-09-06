@@ -1,0 +1,48 @@
+<html><!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'todo/style.css' %}">
+
+  </head>
+
+<body>
+
+<div id="wrapper">
+    <h1 id="heading">TODO LIST</h1>
+    <h5 id="subheading">A list for important tasks</h5>
+    <form action="{% url 'todo:add_task' %}" method="post">
+        {% csrf_token %}
+   <input type="text" name="task" id="text-box" placeholder="Enter a New Task.."></input>
+   <input type="submit" id="submit" value="Add Task">
+    </form>
+
+
+<a href="{% url 'todo:export_users_csv' %}">
+    <button id="download">Export to CSV</button>
+</a>
+
+
+{% if task_list %}
+<ul>
+    {% for task in task_list %}
+    <li>{{ task.task_name }}</li>
+    {% endfor %}
+</ul>
+
+{% else %}
+    <p>No task available</p>
+{% endif %}
+
+</div>
+</body>
+
+<script>
+    console.log('yes');
+
+</script>
+
+
+
+</html>
+
