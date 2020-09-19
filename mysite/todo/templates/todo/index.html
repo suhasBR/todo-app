@@ -13,7 +13,8 @@
     <h5 id="subheading">A list for important tasks</h5>
     <form action="{% url 'todo:add_task' %}" method="post">
         {% csrf_token %}
-   <input type="text" name="task" id="text-box" placeholder="Enter a New Task.."></input>
+        <input type="text" name="task" id="text-box" placeholder="Enter a New Task.."></input>
+        <input type="text" name="description" id="text-box" placeholder="Enter a description.."></input>
    <input type="submit" id="submit" value="Add Task">
     </form>
 
@@ -22,17 +23,35 @@
     <button id="download">Export to CSV</button>
 </a>
 
+    <a href="{% url 'todo:export_users_xlsx' %}">
+    <button id="download">Export to Excel</button>
+</a>
 
+<table>
+    <tr>
+        <th>Task</th>
+        <th>Sub-task</th>
+        <th>Delete</th>
+    </tr>
 {% if task_list %}
-<ul>
     {% for task in task_list %}
-    <li>{{ task.task_name }}</li>
+    <tr>
+        <td>{{ task.task_name }}</td>
+        <td>{{ task.description }}</td>
+        <td>
+        <form action="{% url 'todo:delete_task' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="task_name" value="{{task.task_name}}" style="display:none"></input>
+            <input type="submit" value="X">
+        </form>
+        </td>
+    </tr>
     {% endfor %}
-</ul>
 
 {% else %}
     <p>No task available</p>
 {% endif %}
+</table>
 
 </div>
 </body>
